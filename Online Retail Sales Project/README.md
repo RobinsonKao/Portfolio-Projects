@@ -142,6 +142,6 @@ Displaying sample rows of the data to familiarize with each of the variables.
 
 ## Step 3. Tableau Dashboard Development
 
-Utilizing the results tables from the aforementioned queries, I was able to create various visualizations that make the results more readily understandable.
+I exported some results tables from the aforementioned queries and was able to create various visualizations that make the results more readily understandable.
 
 [Dashboard Link](https://public.tableau.com/app/profile/robinson.kao/viz/OnlineRetailSalesDashboard_17141246193480/Dashboard1)
