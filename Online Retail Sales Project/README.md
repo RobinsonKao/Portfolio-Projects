@@ -42,7 +42,6 @@ This project uses the transnational data set which contains all the transactions
 More info about dataset can be found in the following links:
 
 - Website: [Online Retail Data](https://archive.ics.uci.edu/dataset/352/online+retail)
-- Raw Data (CSV): [Online Retail Data CSV]()
 
 ## Technologies
 
