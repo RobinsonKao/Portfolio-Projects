@@ -2,7 +2,8 @@
 
 ## My Jupyter Notebook
 
-You can view my Jupyter Notebook [here](https://nbviewer.org/github/RobinsonKao/Portfolio-Projects/blob/main/Data%20Science%20Salaries%20Project/Data_Science_Salary_Prediction.ipynb)
+You can view my Jupyter Notebook: [here](https://nbviewer.org/github/RobinsonKao/Portfolio-Projects/blob/main/Data%20Science%20Salaries%20Project/Data_Science_Salary_Prediction.ipynb)
+
 ## Objective
 
 This project aims to develop a global salary prediction model for data science roles using machine learning. By analyzing factors like experience level, geographic location, employment type, and company location, the model offers insights into compensation and areas for improvement. As an aspiring data scientist, I embarked on this project to uncover key predictors for success in the dynamic field of data science. Recognizing the industry's evolution and the importance of financial stability, I explored the dataset and models to identify career-enhancing indicators. Below are the steps I followed:
