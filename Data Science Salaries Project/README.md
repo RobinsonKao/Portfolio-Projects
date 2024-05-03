@@ -53,3 +53,43 @@ This project uses a Data Science Jobs Salaries Dataset from Kaggle which contain
 11.) Company Size: Indicates the average number of people that worked for the company during the year, categorized as small (less than 50 employees), medium (50 to 250 employees), or large (more than 250 employees).
 
 Dataset Link: [Data Science Jobs Salaries](https://www.kaggle.com/datasets/saurabhshahane/data-science-jobs-salaries/data)
+
+## Analytic Techniques and Models
+
+The following technologies are used to build this project:
+
+- Language: Python
+- Extraction and transformation: Jupyter Notebook
+- Libraries and Methods:
+
+A. Pandas: Pandas was the bread and butter of the notebook for manipulation and analysis of the dataset. It was used to read in the dataset as a CSV, add and drop features, create dummy variables, and more.
+
+B. Sklearn: I implemented quintessential machine learning tasks such as splitting the dataset into training and testing sets using scikit-learn's "train_test_split()". I aimed for a 70% training : 30% test split and was able to successfully accomplish that.
+
+C. Statsmodel API: I utilized the OLS function of the Statsmodel API to create a multivariable linear regression model. Because I was working with such a large dataset with many different features (30+), this helped me analyze everything in an organized fashion, ranging from the coefficients to the p-values, to the R"^2" values. I later used my OLS models to predict the test sets as well as salaries for our own randomized data scientists.
+
+D. Out of Sample R"^2": I implemented the OSR2 function to test whether the model has any sort of out-of-sample predictability.
+
+E. Other minor libraries and functions (Numpy, Matplotlib, Seaborn): I also implemented a few other libraries and methods for minor tasks like data cleaning and generating visualization plots.
+
+## Step 1: Data Acquistion
+
+As mentioned earlier, this dataset was sourced from Kaggle and includes various categorical indicators. These indicators shed light on how they relate to a data scientist's salary. The dataset covers recent years, specifically 2020 and 2021, and includes data on different levels of experience, types of employment, job titles, current country of residence, remote work ratio, company location, and company size.
+
+Below I import the CSV into Jupyter Notebook and get an initial look at each of the columns:
+
+![Import CSV](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/a07aff1d-9469-4670-8087-9dc685ef0727)
+
+## Step 2: Data Processing
+
+I utilized .ipynb Colaboratory notebooks to write code for data cleaning. This data processing involved Python, Pandas, and Numpy. We employed Pandas to create dataframes and utilized its functions for code organization. Unnecessary columns were dropped, and categorical variables were one-hot encoded. Subsequently, we removed columns after employing dummy variables.
+
+![Data Preprocessing Part 1](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/5c67d2ea-b3da-41c6-a785-e236be621891)
+![Data Preprocessing Part 2](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/2870d9f0-03c3-4fc8-b004-f16adecc83ea)
+
+## Step 3: Variable Transformation
+
+
+
+
+
