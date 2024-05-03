@@ -18,8 +18,8 @@ The sections below will explain additional details on the technologies and datas
 
 ## Table of Content
 
-- Dataset Used
-- Analytic Techniques and Models
+- [Dataset Used](#dataset-used)
+- [Analytic Techniques and Models](#analytic-techniques-and-models)
 - Step 1: Data Acquisition
 - Step 2: Data Processing
 - Step 3: Variable Transformation
