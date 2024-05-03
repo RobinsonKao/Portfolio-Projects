@@ -20,11 +20,11 @@ The sections below will explain additional details on the technologies and datas
 
 - [Dataset Used](#dataset-used)
 - [Analytic Techniques and Models](#analytic-techniques-and-models)
-- Step 1: Data Acquisition
-- Step 2: Data Processing
-- Step 3: Variable Transformation
-- Step 4: Model Training
-- Step 5: Evaluation
+- [Step 1: Data Acquisition](#step-1:-data-acquistion)
+- [Step 2: Data Processing](#step-2:-data-processing)
+- [Step 3: Variable Transformation](#step-3:-variable-transformation)
+- [Step 4: Model Training](#step-4:-model-training)
+- [Step 5: Evaluation](#step-5:-evaluation)
 
 ## Dataset Used
 
