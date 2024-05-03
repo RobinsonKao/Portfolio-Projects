@@ -15,11 +15,11 @@ The sections below will explain additional details on the technologies and file 
 
 ## Table of Content
 
-- Dataset Used
-- Technologies
-- Step 1: Sourcing and Loading Data
-- Step 2: Querying & Analytics
-- Step 3: Dashboard Development
+- [Dataset Used](#dataset-used)
+- [Technologies](#technologies)
+- [Step 1: Sourcing and Loading Data](#step-1-sourcing-and-loading-data)
+- [Step 2: Querying & Analytics](#step-2-querying-and-analytics)
+- [Step 3: Dashboard Development](#step-3-dashboard-development)
 
 ## Dataset Used
 
