@@ -17,9 +17,9 @@ The sections below will explain additional details on the technologies and file 
 
 - [Dataset Used](#dataset-used)
 - [Technologies](#technologies)
-- [Step 1: Sourcing and Loading Data](#step-1.-loading-the-data-into-mysql)
-- [Step 2: Querying & Analytics](#step-2.-querying-and-analytics)
-- [Step 3: Dashboard Development](#step-3.-tableau-dashboard-development)
+- [Step 1: Sourcing and Loading Data](#step-1-loading-the-data-into-mysql)
+- [Step 2: Querying & Analytics](#step-2-querying-and-analytics)
+- [Step 3: Dashboard Development](#step-3-tableau-dashboard-development)
 
 ## Dataset Used
 
