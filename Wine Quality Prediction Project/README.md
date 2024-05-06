@@ -2,7 +2,7 @@
 
 ## My Jupyter Notebook
 
-You can view my Jupyter Notebook: [here]()
+You can view my Jupyter Notebook: [here](https://nbviewer.org/github/RobinsonKao/Portfolio-Projects/blob/main/Wine%20Quality%20Prediction%20Project/Wine%20Quality.ipynb)
 
 ## Objective
 
