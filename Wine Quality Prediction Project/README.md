@@ -151,7 +151,7 @@ $$
 
 ![2c part 4](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/b7f68d3c-271f-4cd9-9388-048adb57d3dc)
 
-### Because our logistic model assumed the use of two sigmoid functions that depend on whether Z = 0 or Z = 1, we can train them separately. We can accomplish this by dividing our training data (X,Z) into two subsets: (X, Z=1) and (X,Z=0). When Z = 1, we can fit the corresponding X feature data using maximum likelihood estimation to the sigmoid function parameterized by alpha's, and the same for beta's when Z = 0. For the separate models, I removed regressors based on the p-value threshold of 0.05 until all remaining regressors were significant at the 5% level. Afterward, we can merge the two fitted logistic models to create the complete logistic model that computes the Pr(Y=1|X).\
+### Because our logistic model assumed the use of two sigmoid functions that depend on whether Z = 0 or Z = 1, we can train them separately. We can accomplish this by dividing our training data (X,Z) into two subsets: (X, Z=1) and (X,Z=0). When Z = 1, we can fit the corresponding X feature data using maximum likelihood estimation to the sigmoid function parameterized by alpha's, and the same for beta's when Z = 0. For the separate models, I removed regressors based on the p-value threshold of 0.05 until all remaining regressors were significant at the 5% level. Afterward, we can merge the two fitted logistic models to create the complete logistic model that computes the Pr(Y=1|X).
 
 ## Step 7: Logistic Regression Model 2 Evaluation
 
