@@ -77,21 +77,148 @@ The following techniques are used to build this project:
 
 As mentioned above, the dataset used for this project was sourced from Kaggle and then subsequently imported into Jupyter Notebook for regression analysis and classification. Below are sample rows from the dataset.
 
-![sample wine rows](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/ef4491a2-4363-4713-8126-d96ea8191c66)
+| type | fixed acidity | volatile acidity | citric acid | residual sugar | chlorides | free sulfur dioxide | total sulfur dioxide | density | pH   | sulphates | alcohol | quality |
+|------|---------------|------------------|-------------|----------------|-----------|----------------------|-----------------------|---------|------|-----------|---------|---------|
+| white | 7             | 0.27             | 0.36        | 20.7           | 0.045     | 45                   | 170                   | 1.001   | 3    | 0.45      | 8.8     | 6       |
+| white | 6.3           | 0.3              | 0.34        | 1.6            | 0.049     | 14                   | 132                   | 0.994   | 3.3  | 0.49      | 9.5     | 6       |
+| white | 8.1           | 0.28             | 0.4         | 6.9            | 0.05      | 30                   | 97                    | 0.9951  | 3.26 | 0.44      | 10.1    | 6       |
+| white | 7.2           | 0.23             | 0.32        | 8.5            | 0.058     | 47                   | 186                   | 0.9956  | 3.19 | 0.4       | 9.9     | 6       |
+| white | 7.2           | 0.23             | 0.32        | 8.5            | 0.058     | 47                   | 186                   | 0.9956  | 3.19 | 0.4       | 9.9     | 6       |
+| white | 8.1           | 0.28             | 0.4         | 6.9            | 0.05      | 30                   | 97                    | 0.9951  | 3.26 | 0.44      | 10.1    | 6       |
+| white | 6.2           | 0.32             | 0.16        | 7              | 0.045     | 30                   | 136                   | 0.9949  | 3.18 | 0.47      | 9.6     | 6       |
+| white | 7             | 0.27             | 0.36        | 20.7           | 0.045     | 45                   | 170                   | 1.001   | 3    | 0.45      | 8.8     | 6       |
+| white | 6.3           | 0.3              | 0.34        | 1.6            | 0.049     | 14                   | 132                   | 0.994   | 3.3  | 0.49      | 9.5     | 6       |
+| white | 8.1           | 0.22             | 0.43        | 1.5            | 0.044     | 28                   | 129                   | 0.9938  | 3.22 | 0.45      | 11      | 6       |
+| white | 8.1           | 0.27             | 0.41        | 1.45           | 0.033     | 11                   | 63                    | 0.9908  | 2.99 | 0.56      | 12      | 5       |
+| white | 8.6           | 0.23             | 0.4         | 4.2            | 0.035     | 17                   | 109                   | 0.9947  | 3.14 | 0.53      | 9.7     | 5       |
+| white | 7.9           | 0.18             | 0.37        | 1.2            | 0.04      | 16                   | 75                    | 0.992   | 3.18 | 0.63      | 10.8    | 5       |
+| white | 6.6           | 0.16             | 0.4         | 1.5            | 0.044     | 48                   | 143                   | 0.9912  | 3.54 | 0.52      | 12.4    | 7       |
+| white | 8.3           | 0.42             | 0.62        | 19.25          | 0.04      | 41                   | 172                   | 1.0002  | 2.98 | 0.67      | 9.7     | 5       |
+| white | 6.6           | 0.17             | 0.38        | 1.5            | 0.032     | 28                   | 112                   | 0.9914  | 3.25 | 0.55      | 11.4    | 7       |
+| white | 6.3           | 0.48             | 0.04        | 1.1            | 0.046     | 30                   | 99                    | 0.9928  | 3.24 | 0.36      | 9.6     | 6       |
+| white |               | 0.66             | 0.48        | 1.2            | 0.029     | 29                   | 75                    | 0.9892  | 3.33 | 0.39      | 12.8    | 8       |
+| white | 7.4           | 0.34             | 0.42        | 1.1            | 0.033     | 17                   | 171                   | 0.9917  | 3.12 | 0.53      | 11.3    | 6       |
+| white | 6.5           | 0.31             | 0.14        | 7.5            | 0.044     | 34                   | 133                   | 0.9955  | 3.22 | 0.5       | 9.5     | 5       |
+
 
 ## Step 2: Linear Regression Feature Selection and Training
 
 ### I first trained a linear regression model to predict the wine quality score. I utilized 70% of the dataset as the training data and the remaining 30% as the test data, ensuring to maintain consistency by using the same random state number for data split.
 
-![1a part 1](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/4934acf1-01e2-43d5-89f0-9c04cc2dff4d)
+```python
+# 1a.) Training a linear regression model to predict the wine quality score with feature selection. (70% training set : 30% test set)
+
+import pandas as pd
+import numpy as np
+import os
+from sklearn.model_selection import train_test_split
+import statsmodels.formula.api as smf
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+wine = pd.read_csv('wine_quality.csv')
+wine.head()
+```
+
+| fixed_acidity | volatile_acidity | citric_acid | residual_sugar | chlorides | free_sulfur_dioxide | total_sulfur_dioxide | density | pH   | sulphates | alcohol | type | quality |
+|---------------|------------------|-------------|----------------|-----------|----------------------|----------------------|---------|------|-----------|---------|------|---------|
+| 7.0           | 0.27             | 0.36        | 20.7           | 0.045     | 45.0                 | 170.0                | 1.0010  | 3.00 | 0.45      | 8.8     | 0    | 6       |
+| 6.3           | 0.30             | 0.34        | 1.6            | 0.049     | 14.0                 | 132.0                | 0.9940  | 3.30 | 0.49      | 9.5     | 0    | 6       |
+| 8.1           | 0.28             | 0.40        | 6.9            | 0.050     | 30.0                 | 97.0                 | 0.9951  | 3.26 | 0.44      | 10.1    | 0    | 6       |
+| 7.2           | 0.23             | 0.32        | 8.5            | 0.058     | 47.0                 | 186.0                | 0.9956  | 3.19 | 0.40      | 9.9     | 0    | 6       |
+| 7.2           | 0.23             | 0.32        | 8.5            | 0.058     | 47.0                 | 186.0                | 0.9956  | 3.19 | 0.40      | 9.9     | 0    | 6       |
+
+```python
+from sklearn.model_selection import train_test_split
+
+# Splitting the dataset
+wine_train, wine_test = train_test_split(wine, test_size=0.3, random_state=88)
+
+# Displaying the shape of the train and test datasets
+wine_train.shape, wine_test.shape
+```
+
+```plaintext
+((4547, 13), (1950, 13))
+```
+
 
 ### Initially, I ran the model with the inclusion of all the regressors to get a benchmark for the R² which turned out to be a very bad fit given the sub 0.3 R².
 
-![1a part 2](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/4695ab16-3c42-452a-9200-888fee52ce06)
+```python
+wine_train.head()
+```
+| fixed_acidity | volatile_acidity | citric_acid | residual_sugar | chlorides | free_sulfur_dioxide | total_sulfur_dioxide | density | pH  | sulphates | alcohol | type | quality |
+|---------------|------------------|-------------|----------------|-----------|----------------------|----------------------|---------|-----|-----------|---------|------|---------|
+| 10.6          | 0.48             | 0.64        | 2.2            | 0.111     | 6.0                  | 20.0                 | 0.9970  | 3.26| 0.66      | 11.7    | 1    | 6       |
+| 7.5           | 0.14             | 0.34        | 1.3            | 0.055     | 50.0                 | 153.0                | 0.9945  | 3.29| 0.80      | 9.6     | 0    | 6       |
+| 5.6           | 0.21             | 0.24        | 4.4            | 0.027     | 37.0                 | 150.0                | 0.9910  | 3.30| 0.31      | 11.5    | 0    | 7       |
+| 9.0           | 0.44             | 0.49        | 2.4            | 0.078     | 26.0                 | 121.0                | 0.9978  | 3.23| 0.58      | 9.2     | 1    | 5       |
+| 6.7           | 0.20             | 0.42        | 14.0           | 0.038     | 83.0                 | 160.0                | 0.9987  | 3.16| 0.50      | 9.4     | 0    | 6       |
+
+```python
+target_column = 'quality'
+feature_columns = [col for col in wine_train.columns if col != target_column]
+all_features = ' + '.join(feature_columns)
+all_features
+```
+
+```plaintext
+'fixed_acidity + volatile_acidity + citric_acid + residual_sugar + chlorides + free_sulfur_dioxide + total_sulfur_dioxide + density + pH + sulphates + alcohol + type'
+```
+
+```python
+ols = smf.ols(formula='quality ~ ' + all_features, data=wine_train)
+model1 = ols.fit()
+print(model1.summary())
+```
+
+```plaintext
+OLS Regression Results                            
+==============================================================================
+Dep. Variable:                quality   R-squared:                       0.295
+Model:                            OLS   Adj. R-squared:                  0.293
+Method:                 Least Squares   F-statistic:                     158.1
+Date:                Thu, 23 Mar 2023   Prob (F-statistic):               0.00
+Time:                        17:39:31   Log-Likelihood:                -5027.6
+No. Observations:                4547   AIC:                         1.008e+04
+Df Residuals:                    4534   BIC:                         1.016e+04
+Df Model:                          12                                         
+Covariance Type:            nonrobust
+```
+
 
 ### Subsequently, I did feature selection using VIFs and P-Value to only include regressors with low VIFs and significant p-values.
 
-![1a part 3](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/0c182cd7-36b5-4637-b90e-4980bb8b532b)
+```python
+regressors = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol', 'type']
+
+# Function to compute VIFs
+def VIF(df, columns):
+    values = sm.add_constant(df[columns]).values
+    num_columns = len(columns) + 1
+    vif = [variance_inflation_factor(values, i) for i in range(num_columns)]
+    return pd.Series(vif[1:], index=columns)
+
+VIF(wine_train, regressors)
+```
+
+```plaintext
+fixed_acidity            4.817241
+volatile_acidity         2.121607
+citric_acid              1.614725
+residual_sugar           9.320133
+chlorides                1.651829
+free_sulfur_dioxide      2.214714
+total_sulfur_dioxide     3.961942
+density                 21.611229
+pH                       2.467010
+sulphates                1.543964
+alcohol                  5.444707
+type                     6.703327
+dtype: float64
+```
+
 
 ### Ultimately, my final linear regression model included: volatile_acidity, residual_sugar, chlorides, free_sulfur_dioxide, total_sulfure_dioxide, sulphates, alcohol, and type as the indepenedent variables to predict the quality of the wine. I chose variables to include in my linear regression model by removing a variable one-by-one starting with the highest VIF while continuously recomputing the VIFs after removing the variable until all of the remaining variables have a VIF low enough (generally below 5). In addition, I also removed variables that had a high p-value that remnained after using VIFs to eliminate the outliers until all of the remaining regressors have a p-value significant at our traditional cutoff levels of 1% and 5%.
 
@@ -99,15 +226,103 @@ As mentioned above, the dataset used for this project was sourced from Kaggle an
 
 ### With the finalized linear regression model, I applied it to predict quality scores for the test data and compared it with the actual quality.
 
-![1b](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/2df7440e-693c-4622-a5b4-a91985dad006)
+```python
+# Using my final linear regression model to predict quality scores for the test data and appending it to compare with actual quality
+
+quantity_prediction = model1_final.predict(wine_test)
+wine_test_copy = wine_test
+wine_test_copy['quality_hat'] = quantity_prediction
+wine_test_results = wine_test_copy.iloc[:, [12,13]]
+wine_test_results
+```
+
+| quality | quality_hat |
+|---------|-------------|
+| 5       | 4.565673    |
+| 5       | 5.948929    |
+| 5       | 4.873529    |
+| 6       | 5.725694    |
+| 5       | 5.372204    |
+| ...     | ...         |
+| 6       | 5.904938    |
+| 5       | 5.736617    |
+| 5       | 5.348696    |
+| 5       | 5.812864    |
+| 5       | 5.229511    |
+
+1950 rows × 2 columns
+
 
 ### Below I conduct post-processing of the predicted quality scores by rounding each prediction to the nearest integer:
 
-![1c part 1](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/3824a438-1d85-4a87-8664-7ce9931e18e7)
+#### Refine the predicted quality scores (continuous) to integer values between 0 and 10.
+```python
+# rounding the predicted quality to integers
+
+y_temp = wine_test_results['quality_hat']
+y_approximation = []
+
+for i in y_temp:
+    y_temp_round = np.around(i)
+    y_approximation.append(int(y_temp_round))
+  
+wine_test_results['quality_hat_rounded'] = y_approximation # appending the rounded quality predictions
+wine_test_results
+```
+
+| quality | quality_hat | quality_hat_rounded |
+|---------|-------------|---------------------|
+| 5534    | 5           | 4.565673            | 5                   |
+| 3429    | 5           | 5.948929            | 6                   |
+| 4899    | 5           | 4.873529            | 5                   |
+| 3091    | 6           | 5.725694            | 6                   |
+| 645     | 5           | 5.372204            | 5                   |
+| ...     | ...         | ...                 | ...                 |
+| 145     | 6           | 5.904938            | 6                   |
+| 5902    | 5           | 5.736617            | 6                   |
+| 2047    | 5           | 5.348696            | 5                   |
+| 4973    | 5           | 5.812864            | 6                   |
+| 3893    | 5           | 5.229511            | 5                   |
+| 1950 rows × 3 columns                         |
+
 
 ### Finally, I evaluate the performance of my linear regression model in predicting quality scores which turned out to be quite lackluster with an accuracy of around 33%. This suggests that a linear regression model is likely not the best fit for the data. 
 
-![1c part 2](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/16ae75b4-b4ed-47a8-b5b9-1e01497236cf)
+```python
+# Count how many accurate predictions we had by comparing the actual quality with the rounded predicted quality for each row
+
+expected = []
+predicted = []
+count = 0  # Count is the number of accurate predictions from our training set model
+
+for i in wine_test_results['quality']:
+    expected.append(i)
+
+for j in wine_test_results['quality_hat_rounded']:
+    predicted.append(j)
+
+for k in range(1950):
+    if expected[k] == predicted[k]:
+        count += 1
+
+count
+```
+
+```plaintext
+645
+```
+
+```python
+# Compute accuracy for the test set
+
+accuracy = count / len(wine_test)
+accuracy
+```
+
+```plaintext
+0.33076923076923076
+```
+
 
 ## Step 4: Logistic Regression Model 1 Feature Selection and Training
 
@@ -117,13 +332,108 @@ $$
 \text{Pr}(Y = 1 | X, Z) = \frac{1}{1 + e^{-(\beta_0 + \beta_1^T X + \beta_2 Z)}}
 $$
 
-![2a part 1](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/178acfe2-2c55-4ca0-8c89-35a5a146f9c5)
+```python
+# Quality of 7 or greater is considered premium
+premium_or_not = []  # Stores boolean indicator for whether the wine is premium or not
 
-![2a part 2](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/435f64c9-c18e-474d-8341-47f7a06f2c33)
+for i in wine_train['quality']:
+    if (i >= 7):
+        premium_or_not.append(1)
+    else:
+        premium_or_not.append(0)
+
+wine_train['premium'] = premium_or_not
+
+# Fit logistic regression model
+logreg = smf.logit(formula='premium ~ fixed_acidity + volatile_acidity + citric_acid + residual_sugar + chlorides + free_sulfur_dioxide + total_sulfur_dioxide + density + pH + sulphates + type', data=wine_train)
+logreg_model = logreg.fit()
+
+# Display model summary
+logreg_model.summary()
+```
+```plaintext
+Optimization terminated successfully.
+         Current function value: 0.388998
+         Iterations 8
+```
+
+```plaintext
+Logit Regression Results
+
+| Dep. Variable          | premium                 |
+|------------------------|-------------------------|
+| Model                  | Logit                   |
+| Method                 | MLE                     |
+| Date                   | Thu, 23 Mar 2023        |
+| Time                   | 17:39:34                |
+| No. Observations       | 4547                    |
+| Df Residuals           | 4535                    |
+| Df Model               | 11                      |
+| Pseudo R-squ.          | 0.2142                  |
+| Log-Likelihood         | -1768.8                 |
+| LL-Null                | -2251.0                 |
+| Covariance Type        | nonrobust               |
+| LLR p-value            | 8.568e-200              |
+| converged              | True                    |
+
+                         | coef     | std err |    z   | P>|z|   | [0.025  |  0.975] |
+|------------------------|----------|---------|--------|---------|---------|---------|
+| Intercept              | 757.3910 | 37.185  | 20.368 | 0.000   | 684.510 | 830.272 |
+| fixed_acidity          | 0.7901   | 0.063   | 12.600 | 0.000   | 0.667   | 0.913   |
+| volatile_acidity       | -4.0173  | 0.464   | -8.656 | 0.000   | -4.927  | -3.108  |
+| citric_acid            | -0.1652  | 0.414   | -0.399 | 0.690   | -0.977  | 0.646   |
+| residual_sugar         | 0.3433   | 0.021   | 16.708 | 0.000   | 0.303   | 0.384   |
+| chlorides              | -6.9843  | 2.837   | -2.461 | 0.014   | -12.546 | -1.423  |
+| free_sulfur_dioxide    | 0.0098   | 0.003   | 2.820  | 0.005   | 0.003   | 0.017   |
+| total_sulfur_dioxide   | -0.0022  | 0.002   | -1.386 | 0.166   | -0.005  | 0.001   |
+| density                | -783.5069| 38.358  | -20.426| 0.000   | -858.686| -708.328|
+| pH                     | 3.7800   | 0.362   | 10.445 | 0.000   | 3.071   | 4.489   |
+| sulphates              | 3.0408   | 0.322   | 9.442  | 0.000   | 2.410   | 3.672   |
+| type                   | 1.7036   | 0.259   | 6.589  | 0.000   | 1.197   | 2.210   |
+```
+
 
 ### My final logistic regression model for the aforementioned formula consisted of the variables: fixed_acidity, volatile_acidity, residual_sugar, chlorides, free_sulfur_dioxide, density pH, sulphates, and type as the independent variables. I chose those regressors to keep by using backward elimination. That is to say I started with the full model that included all the independent variables of interest, and then removing one variable at a time based on its p-value until all remaining variables have a p-value below the threshold of 0.05
 
-![2a part 3](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/d858694b-fa09-4aa8-b375-b94741a45f6a)
+```plaintext
+Optimization terminated successfully.
+         Current function value: 0.389016
+         Iterations 8
+```
+
+```plaintext
+Logit Regression Results
+
+| Dep. Variable          | premium                 |
+|------------------------|-------------------------|
+| Model                  | Logit                   |
+| Method                 | MLE                     |
+| Date                   | Thu, 23 Mar 2023        |
+| Time                   | 17:39:34                |
+| No. Observations       | 4547                    |
+| Df Residuals           | 4537                    |
+| Df Model               | 9                       |
+| Pseudo R-squ.          | 0.2137                  |
+| Log-Likelihood         | -1769.9                 |
+| LL-Null                | -2251.0                 |
+| Covariance Type        | nonrobust               |
+| LLR p-value            | 2.449e-201              |
+| Converged              | True                    |
+
+                         | coef     | std err |   z   | P>|z|   | [0.025  |  0.975] |
+|------------------------|----------|---------|--------|--------|---------|---------|
+| Intercept              | 770.4157 | 35.378  | 21.777 | 0.000  | 701.077 | 839.754 |
+| fixed_acidity          | 0.7895   | 0.057   | 13.759 | 0.000  | 0.677   | 0.902   |
+| volatile_acidity       | -4.0691  | 0.438   | -9.300 | 0.000  | -4.927  | -3.212  |
+| residual_sugar         | 0.3452   | 0.020   | 17.004 | 0.000  | 0.305   | 0.385   |
+| chlorides              | -7.1027  | 2.838   | -2.503 | 0.012  | -12.664 | -1.541  |
+| free_sulfur_dioxide    | 0.0069   | 0.003   | 2.480  | 0.013  | 0.001   | 0.012   |
+| density                | -796.8700| 36.509  | -21.827| 0.000  | -868.426| -725.314|
+| pH                     | 3.7901   | 0.361   | 10.499 | 0.000  | 3.083   | 4.498   |
+| sulphates              | 3.0147   | 0.320   | 9.408  | 0.000  | 2.387   | 3.643   |
+| type                   | 1.9061   | 0.219   | 8.717  | 0.000  | 1.477   | 2.335   |
+```
+
 
 ## Step 5: Logistic Regression Model 1 Evaluation
 
