@@ -283,7 +283,8 @@ wine_test_results
 | 2047    | 5           | 5.348696            | 5                   |
 | 4973    | 5           | 5.812864            | 6                   |
 | 3893    | 5           | 5.229511            | 5                   |
-| 1950 rows × 3 columns                         |
+
+1950 rows × 3 columns                         
 
 
 ### Finally, I evaluate the performance of my linear regression model in predicting quality scores which turned out to be quite lackluster with an accuracy of around 33%. This suggests that a linear regression model is likely not the best fit for the data. 
