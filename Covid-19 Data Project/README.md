@@ -117,7 +117,7 @@ all_state_by_date['partial_vax_per_capita'].idxmax(0.14237115941655223)
 plt.plot(all_state_by_date.index, all_state_by_date['full_vax_per_capita'])
 plt.title("USA Percent Change in Full Vaccination over all Available Dates")
 plt.xlabel("Date")
-plt.ylabel("Percent change in Full Vaccination")
+plt.ylabel("Percent Change in Full Vaccination")
 ```
 
 ![image](https://github.com/user-attachments/assets/19f97712-18ba-4c2d-9fa9-db29c49084de)
