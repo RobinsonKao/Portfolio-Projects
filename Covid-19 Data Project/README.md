@@ -68,21 +68,28 @@ I will test this hypothesis by utilizing the aforementioned datasets, compiling 
 
 The initial phase of exploratory data analysis involved examining the month-to-month variations in vaccination and mortality rates, expressed as percentage differences, across four selected states. These states were strategically chosen based on principal component analysis (PCA) data, with one state selected from each hemisphere cluster. The rationale behind this selection approach was to discern potential disparities among states within PCA regions. Subsequently, for the second exploratory data analysis, a comprehensive aggregation was conducted across all states. This decision aimed to avoid cluttering the analysis with excessive plotting while still capturing overarching trends.
 
-![pca](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/7f7868f3-197e-45b5-8103-858dfa1002e8)
+![image](https://github.com/user-attachments/assets/7791fded-6472-4af3-9535-ff31285acd1b)
 
 To structure the data appropriately, I began by converting the columns into proper datetime objects and subsequently merged the data based on states and dates. Following this, I generated additional columns to calculate the percentage changes in both partial and full vaccinations separately, as well as the month-to-month percentage change in deaths.
 
-![datetime](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/5dbcd547-7d85-407b-9a74-080b154ac272)
+```python
+from datetime import datetime
+# [outlier, Large cluster, tight cluster, one of an outlier pair, cluster, loose cluster, cluster, outlier]
+# notable_states = ['ND', 'ID', 'LA', 'CO', 'TX', 'WA', 'NY', 'HA']
+notable_states = ['ID', 'CO', 'TX', 'NY', 'HA']
+notable_deaths = deaths[deaths['state'].isin(notable_states)]
+notable_deaths
+```
 
 I opted for calculating percentage changes as it offers a more visually interpretable representation compared to per capita increases. During the initial exploration, I observed that death rates were significantly lower than vaccination rates across all datasets. Consequently, the per capita approach in my first iteration of this EDA yielded minimal values, making it challenging to discern correlations. By transitioning to percentage changes, this effectively mitigated the disparity in per capita values, scaling the data uniformly. As a result, the correlation within the data became distinctly clear through percentages.
 
-![New York](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/b939ec08-5ee0-404e-8811-c7e1af358647)
+![image](https://github.com/user-attachments/assets/add5b3f4-be3f-4a44-8917-780232c127c4)
 
-![Colorado](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/76ee3bdf-5429-4f78-91b4-9e7f5bfac8ec)
+![image](https://github.com/user-attachments/assets/e4e1a9e2-91a6-48d9-80ef-7f84a3eeb315)
 
-![Texas](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/218fdc98-7ee3-4e2b-b8d7-bdf74a6cd60d)
+![image](https://github.com/user-attachments/assets/8fa4467b-6b18-4e3b-b05f-3462e8c01593)
 
-![Idaho](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/d8d605e0-ccf4-49cc-9812-8798f7537fbd)
+![image](https://github.com/user-attachments/assets/bbed4156-0917-4d87-b176-f0d90a7d67cc)
 
 In the end, I opted to aggregate the data on a month-to-month basis rather than a day-to-day basis because I observed that percentage changes on a daily scale exhibited excessive fluctuations, making trend identification challenging. Aggregating month-to-month facilitated clearer trend visualization, as it smoothed out fluctuations and highlighted more discernible patterns.
 
@@ -90,21 +97,70 @@ In the end, I opted to aggregate the data on a month-to-month basis rather than 
 
 For my second exploratory data analysis (EDA), I opted to aggregate daily total per capita death and vaccination rates across the entire United States. I chose this approach deliberately as it offers a distinct aggregation method from my initial EDA. My hypothesis posited that such nationwide aggregation, coupled with daily comparisons, would afford us a fresh perspective compared to our previous analysis. By conducting EDA in this manner, I aimed to identify anomalies deviating from expected consistent upward trends. The anticipated pattern entails death rates, vaccinations, and partial vaccinations increasing at a relatively constant pace, making any deviations potentially indicative of significant insights pertinent to the hypothesis.
 
-![eda2 1](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/c1ccd84e-8138-48e1-a083-b7d147c4bf7d)
+```python
+# This code plots the percent change in partial vaccination over all available dates for the USA
+# It then identifies the date with the maximum percent change in partial vaccination
 
-![eda2 2](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/22b670ad-3f62-4abb-8054-03401beaa629)
+plt.plot(all_state_by_date.index, all_state_by_date['partial_vax_per_capita'])
+plt.title("USA Percent Change in Partial Vaccination over all Available Dates")
+plt.xlabel("Date")
+plt.ylabel("Percent Change in Partial Vaccination")
+np.max(all_state_by_date['partial_vax_per_capita'])
+all_state_by_date['partial_vax_per_capita'].idxmax(0.14237115941655223)
+```
 
-![eda2 3](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/58d75bd5-708e-46ef-a24c-dd206965d853)
+![image](https://github.com/user-attachments/assets/37911d0b-7d1b-4af0-b923-352419d2b599)
+
+```python
+# This code plots the percent change in full vaccination over all available dates for the USA.
+
+plt.plot(all_state_by_date.index, all_state_by_date['full_vax_per_capita'])
+plt.title("USA Percent Change in Full Vaccination over all Available Dates")
+plt.xlabel("Date")
+plt.ylabel("Percent change in Full Vaccination")
+```
+
+![image](https://github.com/user-attachments/assets/19f97712-18ba-4c2d-9fa9-db29c49084de)
+
+```python
+# The code plots the percent change in deaths over all available dates for the USA
+
+plt.plot(all_state_by_date.index, all_state_by_date['tot_death_per_capita'])
+plt.title("USA Percent Change in Deaths over all Available Dates")
+plt.xlabel("Date")
+plt.ylabel("Percent Change in Deaths")
+```
+
+![image](https://github.com/user-attachments/assets/abe7d723-e9d0-49fb-a9bb-1954d285f41c)
 
 ## Models
 
 In my model, I conducted a linear regression analysis between the month-to-month percentage changes in death rates and vaccination rates. The resulting root mean square error (RMSE) of 0.69 was relatively large compared to the dataset's measurements, which typically hovered around 1.0, indicating a weak correlation between the variables. This inference is supported by a graphical representation illustrating the disparity between my predicted percentage changes in vaccination rates and the actual percentage changes observed from February 2021 to September 2021.
 
-![orange](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/86091242-b4f1-453a-b5a2-a2bd91ff61b6)
+```python
+# This code plots the predicted and actual percentage change in vaccination rates over the months of February to September 2021, using a line plot.
+
+plt.subplots()
+sns.lineplot(np.arange(2,10), death_vs_vacc_pred, label = 'Predicted')
+sns.lineplot(np.arange(2,10), all_state_by_month['Percent Change Vaccination'].iloc[2:], label = 'Actual')
+plt.title("Percent Change in Vaccination Over the Months of February to September 2021")
+plt.xlabel('Month')
+```
+![image](https://github.com/user-attachments/assets/234c93a8-fd67-430e-87db-1281ecd720d3)
 
 Furthermore, I plotted the mean squared error (MSE) to underscore the extent of the model's inaccuracies relative to the actual values.
 
-![MSE](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/301bcfba-0792-498b-8e6e-89dc7b39d3e8)
+```python
+# The code generates a line plot showing the mean squared error (MSE) of the model's predictions compared to the actual percentage change in vaccination rates over the months of February to September 2021.
+
+predicted_minus_actual = (death_vs_vacc_pred - all_state_by_month['Percent Change Vaccination'].iloc[2:])**2
+sns.lineplot(np.arange(2,10), predicted_minus_actual)
+plt.xlabel('Month')
+plt.ylabel('MSE of Model')
+plt.title('MSE of Model For Each Month between February to September 2021')
+```
+
+![image](https://github.com/user-attachments/assets/cc41da5d-ace6-4382-84e3-6d21bde742d0)
 
 The majority of the plot illustrates the mean squared error (MSE) exceeding 0, particularly notable in the second month. This discrepancy vividly illustrates the deviation between my model's predictions and the actual values, rendering it unnecessary to mentally compare the two plots directly. Given that the percentage differences are generally small, averaging around 1%, an MSE visibly surpassing 2.5 strongly indicates a lack of correlation between changes in death rates and changes in vaccination rates.
 
@@ -112,12 +168,36 @@ The majority of the plot illustrates the mean squared error (MSE) exceeding 0, p
 
 To enhance my model's performance, I introduced several adjustments, including the integration of time series modeling. I explored this approach with both monthly and daily data. For the monthly data, I fitted the month-to-month percentage changes in deaths to the month-to-month percentage changes in vaccinations. Subsequently, I developed a time series model to assess the progression of month-to-month vaccination rate changes. This time series model was employed twice. Initially, I utilized it to predict the next month's percentage change as shown below.
 
-![percent](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/d889688e-7823-49a9-8ff2-976774d20614)
+```python
+# This code performs time series predictions of the month-to-month percent changes in people partially vaccinated.
+
+time_percent_change_vaccination_t = all_state_by_month[['Percent Change Vaccination']].iloc[3:10]
+time_percent_change_vaccination_t_minus_one = all_state_by_month[['Percent Change Vaccination']].iloc[2:9]
+
+
+time_model_percent_change_vacc = LinearRegression().fit(time_percent_change_vaccination_t_minus_one[['Percent Change Vaccination']], time_percent_change_vaccination_t['Percent Change Vaccination'])
+time_model_percent_change_predict_vacc = time_model_percent_change_vacc.predict(all_state_by_month[['Percent Change Vaccination']].iloc[2:])
+sns.lineplot(np.arange(2,10), time_model_percent_change_predict_vacc)
+plt.title('Time Series Predictions of Month to Month Percent Changes in People Partially Vaccinated')
+plt.xlabel('Month')
+plt.ylabel('Percent Change')
+```
+![image](https://github.com/user-attachments/assets/06dac74e-3da2-46f1-9b36-fb54fc4f2054)
 
 In the second application, depicted below, I utilized the predictions generated by the linear regression model, specifically between the percentage change in deaths and the percentage change in partial vaccination. These predictions were then employed as predictors for the time series analysis. As illustrated below, the resulting plots exhibit significant disparities, suggesting a probable absence of correlation between death rates and vaccination rates.
 
-![fix](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/4c7fb7ce-e0c1-43b6-8f61-75a9878fdba0)
+```python
+vacc_v_death_X = (all_state_by_month[['Percent Change Death']].iloc[2:])
+vacc_v_death_y = all_state_by_month['Percent Change Vaccination'].iloc[2:]
 
+vacc_vs_death_month_model = LinearRegression().fit(vacc_v_death_X, vacc_v_death_y)
+vacc_v_death_predict =  vacc_vs_death_month_model.predict(all_state_by_month[['Percent Change Death']].iloc[2:])
+vacc_v_death_predict_df = pd.DataFrame(vacc_v_death_predict)
+time_model_percent_change_vacc_vs_death = time_model_percent_change_vacc.predict(vacc_v_death_predict_df[[0]])
+sns.lineplot(np.arange(2,10), time_model_percent_change_vacc_vs_death)
+```
+
+![image](https://github.com/user-attachments/assets/b7edbd01-aed3-4eea-b1a4-f271b390df31)
 
 For my second improvement, I extended the same approach to incorporate day-to-day data. To achieve this, I conducted a linear regression analysis, fitting the total number of deaths against the population partially vaccinated. Concurrently, I developed a time series model wherein I applied linear regression to the partially vaccinated population data, comparing it with its own values from the preceding day, establishing our baseline model.
 
