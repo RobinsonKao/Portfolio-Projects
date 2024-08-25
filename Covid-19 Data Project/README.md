@@ -205,7 +205,34 @@ Subsequently, I utilized this baseline model to predict two scenarios: a) utiliz
 
 My decision to focus on total deaths and the population partially vaccinated rather than their percentage counterparts stemmed from my belief that daily percentage fluctuations would introduce significant volatility, potentially hindering valuable insights. Thus, by analyzing total counts, I aimed to capture more stable trends over time.
 
-![snip](https://github.com/RobinsonKao/Portfolio-Projects/assets/112150963/53f12a67-8767-4cc1-8a64-7415ed04ad76)
+```python
+# The code fits a linear regression model to predict the number of people partially vaccinated based on the total deaths
+# It then predicts the number of people partially vaccinated using this model and plots the time series of these predictions over the dates provided in the dataset
+
+time_t = all_state[['People_Partially_Vaccinated']].iloc[1:]
+time_t_minus_one = all_state[['People_Partially_Vaccinated']].iloc[:-1]
+time_model = LinearRegression().fit(time_t_minus_one[['People_Partially_Vaccinated']], time_t['People_Partially_Vaccinated'])
+death_vs_vacc_model_time = LinearRegression().fit(all_state[['tot_death']], all_state['People_Partially_Vaccinated'])
+death_vs_vacc_array = death_vs_vacc_model_time.predict(all_state[['tot_death']])
+death_vs_vacc_df = pd.DataFrame(death_vs_vacc_array)
+time_model_predict_with_death = time_model.predict(death_vs_vacc_df[[0]])
+sns.lineplot(all_state['Date'], time_model_predict_with_death)
+plt.title('Time Series Model of the Number of People Partially Vaccinated Using the Predictions from the Model: Total Deaths vs. People Partially Vaccinated')
+plt.ylabel('Number of People')
+```
+
+![image](https://github.com/user-attachments/assets/3a960d49-14a6-48ed-b732-434412d4cd54)
+
+```python
+# This code plots a time series model predicting the number of people partially vaccinated based on the previous number of people partially vaccinated
+
+time_model_predict = time_model.predict(time_t_minus_one[['People_Partially_Vaccinated']])
+sns.lineplot(all_state['Date'].iloc[1:], time_model_predict)
+plt.title('Time Series Model of the Number of People Partially Vaccinated')
+plt.ylabel('Number of People')
+```
+
+![image](https://github.com/user-attachments/assets/bd2e6a19-3d5f-4157-a692-2518c3221dbd)
 
 ## Challenges I Encountered
 
