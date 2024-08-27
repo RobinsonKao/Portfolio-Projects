@@ -20,7 +20,7 @@ The following sections provide further details on the technologies used and the 
 - [Technologies](#technologies)
 - [Step 1: Importing the Data](#step-1-importing-dataset-into-mysql)
 - [Step 2: Data Preprocessing](#step-2-data-transformation-and-preprocessing)
-- [Step 3: Querying & Analytics](#step-3-querying-&-analytics)
+- [Step 3: Querying & Analytics](#step-3-querying-and-analytics)
 - [Step 4: Dashboard Development](#step-4-tableau-dashboard-development)
 
 ## Dataset Used
@@ -616,7 +616,7 @@ LIMIT 5;
 | PAYMENT | 2                       | 4                             | 134.21            | 298.25             | Advance shipping   | 0                  | 73          | Sporting Goods | Caguas        | Puerto Rico      | Orli           | 19489       | Hendricks     | Corporate        | PR             | 8671 Iron Anchor Corners  | 725              | 2             | Fitness        | 18.2538  | -66.037   | Pacific Asia  | Townsville | Australia     | 19489             | 1/13/2018 11:24        | 75936    | 1360                   | 29.5                | 0.09                    | 179251        | 327.75                  | 0.45                   | 1                    | 327.75 | 327.75           | 298.25                 | Oceania        | Queensland     | PENDING_PAYMENT |                | 1360           | 73                 | Smart watch  | 327.75        | 0              | 1/15/2018 11:24            | Standard Class | 2018       | 1           |
 
 
-## Step 3: Querying & Analytics
+## Step 3: Querying and Analytics
 
 ### Querying Sales Analytics:
 
