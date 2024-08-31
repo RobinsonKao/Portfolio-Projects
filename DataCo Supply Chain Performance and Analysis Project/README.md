@@ -1597,7 +1597,7 @@ SELECT
 FROM
     DeliveryRisk
 WHERE 
-	Total_Orders >= 30 -- only include countries that have at least 30 orders on record (for statistical significance)
+	Total_Orders >= 10 -- only include countries that have at least 10 orders on record (for statistical significance)
 ORDER BY
     Late_Delivery_Risk_Percentage DESC;
 ```
