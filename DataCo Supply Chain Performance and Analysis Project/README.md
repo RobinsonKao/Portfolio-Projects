@@ -1581,7 +1581,6 @@ ORDER BY
 WITH DeliveryRisk AS (
     SELECT
         Order_Country, 
-        Order_Region,
         COUNT(*) AS Total_Orders,
         COUNT(CASE WHEN Delivery_Status = 'Late delivery' THEN 1 END) AS Late_Deliveries
     FROM 
@@ -1589,11 +1588,10 @@ WITH DeliveryRisk AS (
     WHERE
         Order_Status IN ('COMPLETE', 'CLOSED')
     GROUP BY
-        Order_Country, Order_Region
+        Order_Country
 )
 SELECT
     Order_Country,
-    Order_Region,
     Total_Orders,
     ROUND((Late_Deliveries * 100.0 / Total_Orders), 2) AS Late_Delivery_Risk_Percentage
 FROM
@@ -1604,115 +1602,141 @@ ORDER BY
     Late_Delivery_Risk_Percentage DESC;
 ```
 
-| Order Country                            | Order Region        | Total Orders | Late Delivery Risk Percentage |
-|------------------------------------------|---------------------|--------------|-------------------------------|
-| Somalia                                 | East Africa         | 32           | 90.63                         |
-| Afghanistan                             | South Asia          | 53           | 79.25                         |
-| Cambodia                                | Southeast Asia      | 69           | 78.26                         |
-| Yemen                                    | West Asia           | 30           | 76.67                         |
-| Georgia                                  | West Asia           | 53           | 75.47                         |
-| Zimbabwe                                 | East Africa         | 60           | 73.33                         |
-| Uganda                                   | East Africa         | 57           | 71.93                         |
-| Trinidad and Tobago                      | Caribbean           | 72           | 70.83                         |
-| Belarus                                  | Eastern Europe      | 95           | 70.53                         |
-| Ireland                                  | Northern Europe     | 216          | 69.91                         |
-| Jordan                                   | West Asia           | 43           | 69.77                         |
-| Bolivia                                  | South America       | 89           | 69.66                         |
-| Chile                                    | South America       | 299          | 67.22                         |
-| Romania                                  | Eastern Europe      | 183          | 66.12                         |
-| Israel                                   | West Asia           | 100          | 66                            |
-| Norway                                   | Northern Europe     | 138          | 65.94                         |
-| Croatia                                  | Southern Europe     | 44           | 65.91                         |
-| Hungary                                  | Eastern Europe      | 84           | 65.48                         |
-| Sweden                                   | Northern Europe     | 458          | 64.63                         |
-| Ecuador                                  | South America       | 118          | 64.41                         |
-| South Korea                              | Eastern Asia        | 253          | 64.03                         |
-| Pakistan                                 | South Asia          | 309          | 63.75                         |
-| Ghana                                    | West Africa         | 77           | 63.64                         |
-| Mali                                     | West Africa         | 51           | 62.75                         |
-| Ukraine                                  | Eastern Europe      | 475          | 62.32                         |
-| Angola                                    | Central Africa      | 127          | 62.2                          |
-| Saudi Arabia                             | West Asia           | 351          | 62.11                         |
-| United States                            | South of USA        | 1733         | 61.4                          |
-| Thailand                                 | Southeast Asia      | 380          | 61.32                         |
-| Malaysia                                 | Southeast Asia      | 239          | 61.09                         |
-| India                                    | South Asia          | 2108         | 60.1                          |
-| Kazakhstan                               | Central Asia        | 125          | 60                            |
-| Germany                                  | Western Europe      | 4105         | 59.95                         |
-| El Salvador                              | Central America     | 1621         | 59.84                         |
-| Mozambique                                | East Africa         | 109          | 59.63                         |
-| Netherlands                              | Western Europe      | 831          | 59.33                         |
-| Martinique                               | Caribbean           | 59           | 59.32                         |
-| Jamaica                                  | Caribbean           | 81           | 59.26                         |
-| Iran                                     | South Asia          | 667          | 59.22                         |
-| Uzbekistan                               | Central Asia        | 66           | 59.09                         |
-| Lithuania                                | Northern Europe     | 61           | 59.02                         |
-| United States                            | East of USA         | 3236         | 58.68                         |
-| Russia                                   | Eastern Europe      | 452          | 58.63                         |
-| Turkey                                   | West Asia           | 1451         | 58.51                         |
-| Indonesia                                | Southeast Asia      | 1813         | 58.47                         |
-| Madagascar                               | East Africa         | 67           | 58.21                         |
-| China                                    | Eastern Asia        | 2433         | 58.16                         |
-| Democratic Republic of the Congo         | Central Africa      | 486          | 58.02                         |
-| France                                   | Western Europe      | 5790         | 58.01                         |
-| Philippines                              | Southeast Asia      | 893          | 58.01                         |
-| Spain                                    | Southern Europe     | 1672         | 57.78                         |
-| Morocco                                  | North Africa        | 493          | 57.61                         |
-| Austria                                  | Western Europe      | 631          | 57.53                         |
-| United States                            | West of USA         | 3575         | 57.51                         |
-| Uruguay                                  | South America       | 80           | 57.5                          |
-| Egypt                                    | North Africa        | 494          | 57.49                         |
-| Kyrgyzstan                                | Central Asia        | 47           | 57.45                         |
-| Venezuela                                | South America       | 401          | 57.36                         |
-| Tanzania                                 | East Africa         | 171          | 57.31                         |
-| Singapore                                | Southeast Asia      | 187          | 57.22                         |
-| United States                            | US Center           | 2621         | 57.15                         |
-| Ivory Coast                              | West Africa         | 132          | 56.82                         |
-| Vietnam                                  | Southeast Asia      | 319          | 56.74                         |
-| Nicaragua                                | Central America     | 1265         | 56.68                         |
-| Italy                                    | Southern Europe     | 2250         | 56.58                         |
-| Mexico                                   | Central America     | 5834         | 56.58                         |
-| South Africa                             | Southern Africa     | 495          | 56.57                         |
-| New Zealand                              | Oceania             | 699          | 56.51                         |
-| Dominican Republic                       | Caribbean           | 1586         | 56.49                         |
-| Brazil                                   | South America       | 3409         | 56.38                         |
-| Togo                                     | West Africa         | 66           | 56.06                         |
-| Sudan                                    | North Africa        | 102          | 55.88                         |
-| Australia                                | Oceania             | 3783         | 55.67                         |
-| Guatemala                                | Central America     | 1182         | 55.25                         |
-| United Kingdom                           | Northern Europe     | 3157         | 55.21                         |
-| Belgium                                  | Western Europe      | 272          | 55.15                         |
-| Bangladesh                               | South Asia          | 195          | 54.87                         |
-| Portugal                                 | Southern Europe     | 146          | 54.79                         |
-| Barbados                                 | Caribbean           | 53           | 54.72                         |
-| Honduras                                 | Central America     | 1588         | 54.22                         |
-| Canada                                   | Canada              | 410          | 54.15                         |
-| Nigeria                                  | West Africa         | 1121         | 54.06                         |
-| Zambia                                   | East Africa         | 137          | 54.01                         |
-| Argentina                                | South America       | 844          | 53.32                         |
-| Peru                                     | South America       | 308          | 53.25                         |
-| Algeria                                  | North Africa        | 218          | 53.21                         |
-| Cuba                                     | Caribbean           | 1459         | 53.05                         |
-| Iraq                                     | West Asia           | 421          | 52.73                         |
-| Myanmar (Burma)                          | Southeast Asia      | 165          | 52.12                         |
-| Japan                                    | Eastern Asia        | 340          | 51.76                         |
-| Colombia                                 | South America       | 793          | 50.57                         |
-| Poland                                   | Eastern Europe      | 320          | 50.31                         |
-| Haiti                                    | Caribbean           | 281          | 50.18                         |
-| Czech Republic                           | Eastern Europe      | 88           | 50                            |
-| Papua New Guinea                         | Oceania             | 35           | 48.57                         |
-| Finland                                  | Northern Europe     | 149          | 48.32                         |
-| Cameroon                                 | Central Africa      | 147          | 47.62                         |
-| Benin                                    | West Africa         | 32           | 46.88                         |
-| Panama                                   | Central America     | 908          | 46.81                         |
-| Kenya                                    | East Africa         | 106          | 46.23                         |
-| Bulgaria                                 | Eastern Europe      | 68           | 45.59                         |
-| Libya                                    | North Africa        | 60           | 45                            |
-| Rwanda                                   | East Africa         | 36           | 44.44                         |
-| Denmark                                  | Northern Europe     | 155          | 43.87                         |
-| Senegal                                  | West Africa         | 124          | 41.94                         |
-| Switzerland                              | Western Europe      | 119          | 41.18                         |
-| Paraguay                                 | South America       | 45           | 40                            |
+| Order Country                        | Total Orders | Late Delivery Risk |
+|--------------------------------------|--------------|--------------------|
+| Qatar                                | 13           | 100                |
+| Estonia                              | 10           | 100                |
+| Tunisia                              | 14           | 100                |
+| Somalia                              | 32           | 90.63              |
+| Guinea-Bissau                        | 15           | 80                 |
+| Afghanistan                          | 53           | 79.25              |
+| Cambodia                             | 69           | 78.26              |
+| Yemen                                | 30           | 76.67              |
+| Georgia                              | 53           | 75.47              |
+| Zimbabwe                             | 60           | 73.33              |
+| Bosnia and Herzegovina               | 15           | 73.33              |
+| Uganda                               | 57           | 71.93              |
+| Trinidad and Tobago                  | 72           | 70.83              |
+| Belarus                              | 95           | 70.53              |
+| Sri Lanka                            | 10           | 70                 |
+| Ireland                              | 216          | 69.91              |
+| Jordan                               | 43           | 69.77              |
+| Bolivia                              | 89           | 69.66              |
+| Niger                                | 26           | 69.23              |
+| Slovakia                             | 19           | 68.42              |
+| Chile                                | 299          | 67.22              |
+| Syria                                | 24           | 66.67              |
+| Turkmenistan                         | 24           | 66.67              |
+| Romania                              | 183          | 66.12              |
+| Israel                               | 100          | 66                 |
+| Norway                               | 138          | 65.94              |
+| Croatia                              | 44           | 65.91              |
+| Hungary                              | 84           | 65.48              |
+| Sweden                               | 458          | 64.63              |
+| Ecuador                              | 118          | 64.41              |
+| South Korea                          | 253          | 64.03              |
+| Pakistan                             | 309          | 63.75              |
+| Ghana                                | 77           | 63.64              |
+| Mali                                 | 51           | 62.75              |
+| Ukraine                              | 475          | 62.32              |
+| Angola                               | 127          | 62.2               |
+| Saudi Arabia                         | 351          | 62.11              |
+| Namibia                              | 13           | 61.54              |
+| Thailand                             | 380          | 61.32              |
+| Malaysia                             | 239          | 61.09              |
+| India                                | 2108         | 60.1               |
+| Kazakhstan                           | 125          | 60                 |
+| Germany                              | 4105         | 59.95              |
+| El Salvador                          | 1621         | 59.84              |
+| Mozambique                           | 109          | 59.63              |
+| Netherlands                          | 831          | 59.33              |
+| Martinique                           | 59           | 59.32              |
+| Jamaica                              | 81           | 59.26              |
+| Iran                                 | 667          | 59.22              |
+| Uzbekistan                           | 66           | 59.09              |
+| Lithuania                            | 61           | 59.02              |
+| Russia                               | 452          | 58.63              |
+| Turkey                               | 1451         | 58.51              |
+| Indonesia                            | 1813         | 58.47              |
+| United States                        | 11165        | 58.37              |
+| Mongolia                             | 12           | 58.33              |
+| Madagascar                           | 67           | 58.21              |
+| China                                | 2433         | 58.16              |
+| Democratic Republic of the Congo     | 486          | 58.02              |
+| France                               | 5790         | 58.01              |
+| Philippines                          | 893          | 58.01              |
+| Spain                                | 1672         | 57.78              |
+| Morocco                              | 493          | 57.61              |
+| Austria                              | 631          | 57.53              |
+| Uruguay                              | 80           | 57.5               |
+| Egypt                                | 494          | 57.49              |
+| Kyrgyzstan                           | 47           | 57.45              |
+| Venezuela                            | 401          | 57.36              |
+| Tanzania                             | 171          | 57.31              |
+| Singapore                            | 187          | 57.22              |
+| Gabon                                | 14           | 57.14              |
+| Ivory Coast                          | 132          | 56.82              |
+| Vietnam                              | 319          | 56.74              |
+| Nicaragua                            | 1265         | 56.68              |
+| Italy                                | 2250         | 56.58              |
+| Mexico                               | 5834         | 56.58              |
+| South Africa                         | 495          | 56.57              |
+| New Zealand                          | 699          | 56.51              |
+| Dominican Republic                   | 1586         | 56.49              |
+| Brazil                               | 3409         | 56.38              |
+| Togo                                 | 66           | 56.06              |
+| Sudan                                | 102          | 55.88              |
+| Australia                            | 3783         | 55.67              |
+| Moldova                              | 27           | 55.56              |
+| Guatemala                            | 1182         | 55.25              |
+| United Kingdom                       | 3157         | 55.21              |
+| Belgium                              | 272          | 55.15              |
+| Bangladesh                           | 195          | 54.87              |
+| Portugal                             | 146          | 54.79              |
+| Barbados                             | 53           | 54.72              |
+| Guadeloupe                           | 22           | 54.55              |
+| Lesotho                              | 11           | 54.55              |
+| Honduras                             | 1588         | 54.22              |
+| Canada                               | 410          | 54.15              |
+| Nigeria                              | 1121         | 54.06              |
+| Zambia                               | 137          | 54.01              |
+| Argentina                            | 844          | 53.32              |
+| Peru                                 | 308          | 53.25              |
+| Algeria                              | 218          | 53.21              |
+| Cuba                                 | 1459         | 53.05              |
+| Iraq                                 | 421          | 52.73              |
+| Myanmar (Burma)                      | 165          | 52.12              |
+| Japan                                | 340          | 51.76              |
+| Colombia                             | 793          | 50.57              |
+| Poland                               | 320          | 50.31              |
+| Haiti                                | 281          | 50.18              |
+| Czech Republic                       | 88           | 50                 |
+| Costa Rica                           | 10           | 50                 |
+| Hong Kong                            | 20           | 50                 |
+| United Arab Emirates                 | 10           | 50                 |
+| Papua New Guinea                     | 35           | 48.57              |
+| Finland                              | 149          | 48.32              |
+| Azerbaijan                           | 25           | 48                 |
+| Cameroon                             | 147          | 47.62              |
+| Benin                                | 32           | 46.88              |
+| Panama                               | 908          | 46.81              |
+| Kenya                                | 106          | 46.23              |
+| Bulgaria                             | 68           | 45.59              |
+| Libya                                | 60           | 45                 |
+| Rwanda                               | 36           | 44.44              |
+| Denmark                              | 155          | 43.87              |
+| Senegal                              | 124          | 41.94              |
+| Greece                               | 12           | 41.67              |
+| Switzerland                          | 119          | 41.18              |
+| Paraguay                             | 45           | 40                 |
+| Guinea                               | 16           | 37.5               |
+| Ethiopia                             | 11           | 36.36              |
+| Sierra Leone                         | 17           | 35.29              |
+| Albania                              | 20           | 35                 |
+| Lebanon                              | 12           | 33.33              |
+| Mauritania                           | 14           | 21.43              |
+| Taiwan                               | 10           | 20                 |
+| Nepal                                | 19           | 15.79              |
 
 
 #### 20.) How is the customer retention rate of each customer segment?
