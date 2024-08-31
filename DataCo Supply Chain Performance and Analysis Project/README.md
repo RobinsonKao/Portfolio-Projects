@@ -1122,32 +1122,41 @@ ORDER BY orders_placed DESC, average_net_profit_per_order DESC, average_order_va
 #### 7.) What is the relationship between product category and sales performance? Which types of products have the highest product margins?
 
 ```sql
-SELECT Category_Name, ROUND(SUM(Sales), 2) AS sales_revenue, ROUND(AVG(Benefit_per_order), 2) AS average_benefit_per_order, COUNT(Order_Date) AS orders_placed
+SELECT
+Category_Name,
+ROUND(SUM(Sales), 2) AS sales_revenue,
+ROUND(AVG(Benefit_per_order), 2) AS average_benefit_per_order,
+ROUND(SUM(Order_Profit_per_Order), 2) AS total_profit,
+COUNT(Order_Date) AS orders_placed
 FROM supplychaindata
 WHERE Order_Status IN ('Complete', 'Closed')
 GROUP BY Category_Name
-ORDER BY sales_revenue DESC, average_benefit_per_order DESC, orders_placed DESC
+ORDER BY sales_revenue DESC, total_profit DESC, average_benefit_per_order DESC, orders_placed DESC
 LIMIT 10;
 ```
 
-| Category Name            | Sales Revenue | Average Benefit per Order | Orders Placed |
-|--------------------------|---------------|----------------------------|---------------|
-| Fishing                  | $3,022,248.96 | $44.24                     | 7,556         |
-| Cleats                   | $1,934,378.24 | $21.14                     | 10,684        |
-| Camping & Hiking         | $1,802,879.87 | $31.56                     | 6,010         |
-| Cardio Equipment         | $1,639,187.25 | $32.57                     | 5,533         |
-| Women's Apparel          | $1,387,000.00 | $17.20                     | 9,295         |
-| Water Sports             | $1,342,783.01 | $21.61                     | 6,703         |
-| Men's Footwear           | $1,279,971.66 | $13.66                     | 9,839         |
-| Indoor/Outdoor Games     | $1,257,646.73 | $16.06                     | 8,442         |
-| Shop By Sport            | $568,171.82   | $11.39                     | 4,803         |
-| Computers                | $310,500.00   | $183.74                    | 207           |
+| Category_Name          | sales_revenue | average_benefit_per_order | total_profit | orders_placed |
+|------------------------|---------------|---------------------------|--------------|---------------|
+| Fishing                | 3022248.96    | 44.24                      | 334265.33    | 7556          |
+| Cleats                 | 1934378.24    | 21.14                      | 225819.01    | 10684         |
+| Camping & Hiking       | 1802879.87    | 31.56                      | 189689.09    | 6010          |
+| Cardio Equipment       | 1639187.25    | 32.57                      | 180228.53    | 5533          |
+| Women's Apparel        | 1387000       | 17.2                       | 159854.55    | 9295          |
+| Water Sports           | 1342783.01    | 21.61                      | 144830.54    | 6703          |
+| Men's Footwear         | 1278971.66    | 13.66                      | 134411.05    | 9839          |
+| Indoor/Outdoor Games   | 1257646.73    | 16.06                      | 135604.35    | 8442          |
+| Shop By Sport          | 568171.82     | 11.39                      | 54709.19     | 4803          |
+| Computers              | 310500        | 183.74                     | 38033.61     | 207           |
 
 
 #### 8.) How does benefit per order vary across different categories and customer segments?
 
 ```sql
-SELECT Category_Name, Customer_Segment, ROUND(AVG(Benefit_per_order), 2) AS average_benefit_per_order, COUNT(Order_Date) AS orders_placed
+SELECT
+Category_Name,
+Customer_Segment,
+ROUND(AVG(Benefit_per_order), 2) AS average_benefit_per_order,
+COUNT(Order_Date) AS orders_placed
 FROM supplychaindata 
 WHERE Order_Status IN ('Complete', 'Closed')
 GROUP BY Category_Name, Customer_Segment
@@ -1193,9 +1202,9 @@ ORDER BY contribution_percentage DESC, sales_revenue DESC;
 
 ```sql
 SELECT 
-    Category_Name,
-    COUNT(*) AS number_of_canceled_orders,                          # omit fraudulent orders from calculation for accuracy
-    (COUNT(*) / (SELECT COUNT(*) FROM supplychaindata WHERE Order_Status != 'Suspected_Fraud') * 100) AS cancellation_rate 
+Category_Name,
+COUNT(*) AS number_of_canceled_orders, # omit fraudulent orders from calculation for accuracy
+(COUNT(*) / (SELECT COUNT(*) FROM supplychaindata WHERE Order_Status != 'Suspected_Fraud') * 100) AS cancellation_rate 
 FROM supplychaindata
 WHERE Order_Status = 'CANCELED'
 GROUP BY Category_Name
