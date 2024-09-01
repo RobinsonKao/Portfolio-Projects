@@ -1849,4 +1849,4 @@ ORDER BY
 
 ## Step 4: Tableau Dashboard Development
 
-[Tableau Dashboard Link]()
+[Tableau Dashboard Link](https://public.tableau.com/app/profile/robinson.kao/viz/SupplyChainPerformanceAnalyticsDashboard/Dashboard1)
