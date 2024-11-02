@@ -1,4 +1,4 @@
-# 🛍 E-Commerce Sales MySQL Data Analysis Project
+# 🛍 E-Commerce Retail Sales MySQL Data Analysis Project
 
 ## Objective
 
