@@ -1,4 +1,4 @@
-# 🚚 DataCo Supply Chain Performance and Analysis Project
+# 🚚 DataCo Supply Chain Performance MySQL Analysis Project
 
 ## Objective
 
