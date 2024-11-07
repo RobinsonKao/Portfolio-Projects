@@ -49,16 +49,16 @@ Death Tolls (stored as variable "notable_deaths")
 The following technologies are used to build this project:
 
 - Language: Python
-- Extraction and transformation: Jupyter Notebook
+- Extraction and Transformation: Jupyter Notebook
 - Libraries and Methods: pandas, sklearn, geopy, numpy, matplotlib, seaborn, plotly, scipy
 
 ## My Hypothesis
 
-I hypothesized that the change in death rates is positively correlated with the change in vaccination rates in people's first dosage as a response. That is to say that a bigger spike in death rates may motivate and incentivize people to get vaccinated more urgently, which may explain this correlation,
+I hypothesized that changes in death rates are positively correlated with changes in first-dose vaccination rates, with larger spikes in death rates potentially driving increased urgency for vaccination.
 
 ## Hypothesis Testing
 
-I will test this hypothesis by utilizing the aforementioned datasets, compiling the day-by-day death tolls and case counts for each state, and computing the mean values. Then I can use the mean values and create visualizations to display correlations between the death rates and subsequent vaccination rates over a given time interval to identify supporting or confounding evidence for the hypothesis.
+To test this hypothesis, I will use the aforementioned datasets to compile daily death tolls and case counts by state, calculate the mean values, and create visualizations to explore correlations between death rates and subsequent vaccination rates over time. This will help identify supporting or confounding evidence for the hypothesis.
 
 ## Exploratory Data Analysis Part 1
 
