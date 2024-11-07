@@ -6,13 +6,9 @@ You can view my Jupyter Notebook: [here](https://nbviewer.org/github/RobinsonKao
 
 ## Objective
 
-This project delves into a comprehensive examination of COVID-19 data from the beginning of lockdown until September 2021, with a particular focus on exploring potential correlations between variables. My running hypothesis suggests a positive correlation between changes in death rates and changes in vaccination rates, specifically in response to individuals receiving their first dosage of the vaccine. I postulate that a significant increase in death rates might act as a motivating factor, prompting individuals to seek vaccination more urgently, thus potentially explaining this correlation. Throughout this project, I showcase proficiency in:
+"This project analyzes COVID-19 data from the start of the lockdown through September 2021, exploring potential correlations between variables. My hypothesis suggests a positive correlation between changes in death rates and first-dose vaccination rates, with higher death rates driving increased vaccination urgency. The project demonstrates my proficiency in data cleaning, exploratory data analysis (EDA) using Pandas, implementing both supervised and unsupervised learning techniques, and creating visualizations to communicate insights.
 
-Conducting data cleaning and exploratory data analysis (EDA) utilizing Pandas.
-Implementing both unsupervised and supervised learning techniques.
-Creating informative visualizations to effectively communicate insights gleaned from the data.
-
-This document will offer my final report, emphasizing the key data modeling outputs pivotal in shaping my hypothesis. Additionally, it will address inherent limitations and suggest avenues for future work, including the incorporation of more recent data and the rectification of identified shortcomings.
+The final report highlights key data modeling outputs supporting my hypothesis, discusses limitations, and suggests future work, such as incorporating more recent data and addressing identified shortcomings
 
 ## Table of Content
 
